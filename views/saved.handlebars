@@ -1,0 +1,58 @@
+<div class="jumbotron">
+    <h1>Saved Articles from NY Times</h1>
+</div>
+
+<a href="/" type="button" class="btn btn-info">Home</a>
+<!-- Modal -->
+<div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add A Note</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="article-headline"></div>
+                <input class="form-control" id='titleinput' name='title'>
+                <textarea class="form-control" id='bodyinput' name='body' rows="3"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="save-note" type="button" class="btn btn-primary">Save Note</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    {{#if article }} {{#each article}}
+    <div class="card">
+        <h4 class="card-title {{this._id}}" data-id={{this._id}}>{{this.headline}}</h4>
+        <p class="card-text">{{this.summary}}</p>
+        <h5>Notes:</h5>
+        {{#if notes}}
+        <ul>
+            {{#each notes}}
+            <li>
+                <p data-id={{this._id}}>Title: {{this.title}}</p>
+                <p data-id={{this._id}}>Note: {{this.body}}</p>
+                <button class="delete-note btn btn-warning" data-article-id={{../this._id}} data-id={{this._id}}>Delete Note</button>
+            </li>
+            {{/each}}
+        </ul>
+        {{else}}
+        <p>No Saved Notes</p>
+        {{/if}}
+        <a href={{this.link}} target="_blank" class="btn btn-primary">Link to Article</a>
+        <!-- Button trigger modal -->
+        <button class="add-note btn btn-secondary" data-id={{this._id}} type="button" data-toggle="modal" data-target="#noteModal">
+            Add Note
+        </button>
+        <button class="delete-article btn btn-danger" data-id={{this._id}} type="button">
+            Delete Article
+        </button>
+    </div>
+    {{/each}} {{/if}}
+</div>
+</div>
