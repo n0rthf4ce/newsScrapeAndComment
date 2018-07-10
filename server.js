@@ -26,7 +26,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost:27017/nyTimes");
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/nyTimes";
+
+// Set mongoose to leverage built in JavaScript ES6 Promises
+// Connect to the Mongo DB
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI, {
+  useMongoClient: true
+});
 
 // Routes
 require('./routes/api/api')(app);
